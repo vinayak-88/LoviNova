@@ -1,0 +1,7 @@
+node_modules/
+Frontend/.parcel-cache/
+Backend/node_modules/
+uploads/
+.env
+Backend/src/config/vision-key.json
+.DS_Store
