@@ -1,4 +1,4 @@
-const brevo = require("../config/nodemailer");
+const brevo = require("../config/email");
 
 function generateOTP() {
   return Math.floor(100000 + Math.random() * 900000);
