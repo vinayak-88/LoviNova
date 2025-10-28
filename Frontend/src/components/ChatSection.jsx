@@ -16,7 +16,7 @@ import { useSelector } from "react-redux";
 import ImageWithFallback from "../utils/ImageWithFallBack";
 import UserProfile from "./UserProfile";
 
-const socket = io("http://localhost:3000", {
+const socket = io("https://lovinova-4.onrender.com", {
   withCredentials: true,
 });
 
