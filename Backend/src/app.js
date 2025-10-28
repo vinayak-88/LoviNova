@@ -26,6 +26,16 @@ app.use(requestRouter);
 app.use(userRouter);
 app.use(chatRouter);
 
+app.get("/mailtest", async (req, res) => {
+  try {
+    await transporter.verify();
+    res.send("SMTP connection OK");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send(err.message);
+  }
+});
+
 //global error handling middleware
 app.use((err, req, res, next) => {
   // If it's a mongoose validation error
