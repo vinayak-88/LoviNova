@@ -8,6 +8,7 @@ const transporter = require("../config/email");
 const jwt = require("jsonwebtoken");
 const rateLimit = require("express-rate-limit");
 const validator = require("validator")
+const brevo = require("../config/nodemailer");
 
 const {
   validateSignUpData,
@@ -85,7 +86,7 @@ authRouter.post("/signup", async (req, res, next) => {
         existingUser.resetOtp = otp;
         existingUser.otpExpiry = Date.now() + 5 * 60 * 1000;
         await existingUser.save();
-        await sendOTP(transporter, emailId, otp);
+        await sendOTP(emailId, otp);
         return res.json({ message: "New OTP sent to your email" });
       }
     }
@@ -115,7 +116,7 @@ authRouter.post("/signup", async (req, res, next) => {
     user.otpExpiry = expiry;
     await user.save();
 
-    await sendOTP(transporter, emailId, otp);
+    await sendOTP(emailId, otp);
 
     res.status(200).json({
       message: "Signup successful. Please verify your email with the OTP sent.",
@@ -140,7 +141,7 @@ authRouter.post("/resend-otp", otpLimiter, async (req, res, next) => {
     user.otpExpiry = expiry;
     await user.save();
 
-    await sendOTP(transporter, emailId, otp);
+    await sendOTP(emailId, otp);
     res.json({ message: "New OTP sent" });
   } catch (err) {
     next(err);
@@ -231,7 +232,7 @@ authRouter.post("/forgotpassword", otpLimiter, async (req, res, next) => {
     user.otpExpiry = expiry;
     await user.save();
 
-    await sendOTP(transporter, emailId, otp);
+    await sendOTP(emailId, otp);
     res.status(200).json({ message: "OTP sent successfully" });
   } catch (err) {
     next(err);
