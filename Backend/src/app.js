@@ -43,11 +43,10 @@ const path = require("path");
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../../Frontend/dist")));
 
-  app.get("*", (req, res) => {
+  app.use((req, res) => {
     res.sendFile(path.join(__dirname, "../../Frontend/dist/index.html"));
   });
 }
-
 
 const http = require("http");
 const { Server } = require("socket.io");
@@ -77,26 +76,28 @@ io.on("connection", (socket) => {
       io.to(receiverSocket).emit("receiveMessage", { senderId, message });
     }
     if (senderSocket) {
-    io.to(senderSocket).emit("receiveMessage", { senderId, message });
-  }
+      io.to(senderSocket).emit("receiveMessage", { senderId, message });
+    }
   });
 
   socket.on("messageRead", async ({ conversationId, receiverId }) => {
-  await message.updateMany(
-    { conversationId, senderId: { $ne: receiverId }, read: false },
-    { $set: { read: true } }
-  );
+    await message.updateMany(
+      { conversationId, senderId: { $ne: receiverId }, read: false },
+      { $set: { read: true } }
+    );
 
-  const chat = await conversation.findById(conversationId);
-  if (!chat) return;
+    const chat = await conversation.findById(conversationId);
+    if (!chat) return;
 
-  const otherUserId = chat.participants.find((id) => id.toString() !== receiverId);
-  const otherUserSocket = onlineUsers.get(otherUserId.toString());
+    const otherUserId = chat.participants.find(
+      (id) => id.toString() !== receiverId
+    );
+    const otherUserSocket = onlineUsers.get(otherUserId.toString());
 
-  if (otherUserSocket) {
-    io.to(otherUserSocket).emit("messageRead", { conversationId });
-  }
-});
+    if (otherUserSocket) {
+      io.to(otherUserSocket).emit("messageRead", { conversationId });
+    }
+  });
 
   socket.on("disconnect", () => {
     onlineUsers.forEach((value, key) => {
@@ -105,11 +106,9 @@ io.on("connection", (socket) => {
   });
 });
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT;
 connectDB()
   .then(() => {
-    server.listen(PORT, () => {
-    });
+    server.listen(PORT, () => {});
   })
-  .catch((err) => {
-  });
+  .catch((err) => {});
