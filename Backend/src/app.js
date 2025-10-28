@@ -11,6 +11,8 @@ const chatRouter = require("./routes/chat");
 const cors = require("cors");
 // const transporter = require("./config/email");
 
+app.set("trust proxy", 1);
+
 app.use(express.json());
 app.use(cookieParser());
 
