@@ -9,6 +9,7 @@ import {
   Loader2,
   AlertCircle,
   CheckCircle,
+  Plus,
 } from "lucide-react";
 import axios from "axios";
 import ImageWithFallback from "../utils/ImageWithFallBack";
@@ -134,7 +135,35 @@ export default function UserProfile({ userId, onBack }) {
   };
 
   const confirmAction = async (action) => {
-    if (action === "remove") {
+    if (action === "add") {
+      try {
+        const res = await axios.post(
+          apiUrl + `/request/send/interested/${displayUser._id}`,
+          {},
+          { withCredentials: true }
+        );
+        if (res.status === 200) {
+          showNotification(
+            `connection request sent to ${
+              displayUser.firstName + " " + displayUser.lastName
+            }`,
+            "success"
+          );
+        }
+      } catch (err) {
+        if(err.response.data.message==="Request already exist") showNotification(
+          `Connection request already exists`,
+          "info"
+        );
+        else
+        showNotification(
+          `Error sending connection request to ${
+            displayUser.firstName + " " + displayUser.lastName
+          }`,
+          "info"
+        );
+      }
+    } else if (action === "remove") {
       try {
         const res = await axios.delete(
           apiUrl + `/user/connections/removeconnection/${displayUser._id}`,
@@ -318,12 +347,19 @@ export default function UserProfile({ userId, onBack }) {
             )}
             {menuOpen && (
               <div className="absolute right-0 top-full mt-2 w-48 sm:w-56 bg-white rounded-lg shadow-xl py-2 z-20 border border-gray-100">
-                {displayUser.canRemove && (
+                {displayUser.canRemove ? (
                   <button
                     onClick={() => handleAction("remove")}
                     className="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
                   >
                     <Trash2 className="w-4 h-4 mr-3" /> Remove Connection
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => confirmAction("add")}
+                    className="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
+                  >
+                    <Plus className="w-4 h-4 mr-3" /> Send Request
                   </button>
                 )}
                 <button

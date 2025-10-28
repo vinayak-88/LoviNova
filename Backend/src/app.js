@@ -11,14 +11,14 @@ const chatRouter = require("./routes/chat");
 const cors = require("cors");
 // const transporter = require("./config/email");
 
-app.set("trust proxy", 1);
+// app.set("trust proxy", 1);
 
 app.use(express.json());
 app.use(cookieParser());
 
 app.use(
   cors({
-    origin: "*",
+    origin: process.env.CLIENT_URL,
     credentials: true,
   })
 );
@@ -28,16 +28,6 @@ app.use(profileRouter);
 app.use(requestRouter);
 app.use(userRouter);
 app.use(chatRouter);
-
-// app.get("/mailtest", async (req, res) => {
-//   try {
-//     await transporter.verify();
-//     res.send("SMTP connection OK");
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).send(err.message);
-//   }
-// });
 
 //global error handling middleware
 app.use((err, req, res, next) => {
