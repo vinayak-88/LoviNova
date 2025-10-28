@@ -1,4 +1,5 @@
-# 💖 Lovinova – Full-Stack Social Connection Platform  
+# 💖 Lovinova – Full-Stack Social Connection Platform
+[Live Link](https://lovinova-4.onrender.com/)
 
 🚀 **Lovinova** is a MERN stack social connection and dating app featuring secure authentication, AI-powered profile validation, real-time chat, and an engaging swipe-style discovery feed.  
 
