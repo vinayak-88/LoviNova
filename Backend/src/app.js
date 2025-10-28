@@ -19,6 +19,17 @@ app.use(
     credentials: true,
   })
 );
+
+const path = require("path");
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../../Frontend/dist")));
+
+  app.use((req, res) => {
+    res.sendFile(path.join(__dirname, "../../Frontend/dist/index.html"));
+  });
+}
+
 app.use(authRouter);
 app.use(profileRouter);
 app.use(requestRouter);
@@ -92,16 +103,6 @@ io.on("connection", (socket) => {
     });
   });
 });
-
-const path = require("path");
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../../Frontend/dist")));
-
-  app.use((req, res) => {
-    res.sendFile(path.join(__dirname, "../../Frontend/dist/index.html"));
-  });
-}
 
 const PORT = process.env.PORT
 connectDB()
