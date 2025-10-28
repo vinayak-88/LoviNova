@@ -20,16 +20,6 @@ app.use(
   })
 );
 
-const path = require("path");
-
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../../Frontend/dist")));
-
-  app.use((req, res) => {
-    res.sendFile(path.join(__dirname, "../../Frontend/dist/index.html"));
-  });
-}
-
 app.use(authRouter);
 app.use(profileRouter);
 app.use(requestRouter);
@@ -47,6 +37,17 @@ app.use((err, req, res, next) => {
   // For other errors
   res.status(500).json({ message: err.message || "Something went wrong" });
 });
+
+const path = require("path");
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../../Frontend/dist")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../Frontend/dist/index.html"));
+  });
+}
+
 
 const http = require("http");
 const { Server } = require("socket.io");
