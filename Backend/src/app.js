@@ -9,7 +9,7 @@ const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 const chatRouter = require("./routes/chat");
 const cors = require("cors");
-const transporter = require("./config/nodemailer");
+const transporter = require("./config/email");
 
 app.use(express.json());
 app.use(cookieParser());
