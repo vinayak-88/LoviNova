@@ -8,7 +8,7 @@ const transporter = require("../config/email");
 const jwt = require("jsonwebtoken");
 const rateLimit = require("express-rate-limit");
 const validator = require("validator")
-const brevo = require("../config/nodemailer");
+const brevo = require("../config/email");
 
 const {
   validateSignUpData,

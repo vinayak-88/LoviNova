@@ -9,7 +9,7 @@ const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
 const chatRouter = require("./routes/chat");
 const cors = require("cors");
-const transporter = require("./config/email");
+// const transporter = require("./config/email");
 
 app.use(express.json());
 app.use(cookieParser());
@@ -27,15 +27,15 @@ app.use(requestRouter);
 app.use(userRouter);
 app.use(chatRouter);
 
-app.get("/mailtest", async (req, res) => {
-  try {
-    await transporter.verify();
-    res.send("SMTP connection OK");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send(err.message);
-  }
-});
+// app.get("/mailtest", async (req, res) => {
+//   try {
+//     await transporter.verify();
+//     res.send("SMTP connection OK");
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).send(err.message);
+//   }
+// });
 
 //global error handling middleware
 app.use((err, req, res, next) => {
