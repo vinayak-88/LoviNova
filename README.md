@@ -12,7 +12,7 @@
 - 🤖 **AI-Powered Validation** – Google Cloud Vision API ensures uploaded profile images contain a valid human face  
 - ☁️ **Cloud Media Pipeline** – Cloudinary integration for image storage, optimization, and delivery  
 - ❤️ **User Discovery** – Swipe-style feed, search, requests, matches, blocking/unblocking  
-- ⚡ **Optimized Backend** – MongoDB with Mongoose transactions & indexing for high-performance queries  
+- ⚡ **Optimized Backend** – MongoDB with Mongoose transactions, pagination & indexing for high-performance queries  
 
 ---
 
