@@ -49,3 +49,215 @@
 
 
 
+
+---
+
+##  Project Structure
+
+\\\
+LoviNova/
+ Backend/
+    src/
+       app.js                 # Express app setup
+       config/                # Database, email, Vision API configs
+       middlewares/           # Auth, upload middlewares
+       models/                # MongoDB schemas (User, Chat, Message, etc.)
+       routes/                # API routes (auth, chat, profile, requests)
+       utils/                 # Helper utilities (validation, OTP, Cloudinary, Vision)
+       uploads/               # Temporary file storage
+    package.json
+    README.md
+ Frontend/
+    src/
+       components/            # React components (ChatSection, Feed, Profile, etc.)
+       utils/                 # Redux slices, auth routes, helpers
+       App.jsx
+       main.jsx
+       index.html
+    package.json
+    tailwind.config.js
+    nginx.conf
+ README.md
+\\\
+
+---
+
+##  Getting Started
+
+### Prerequisites
+- **Node.js** v14+ and **npm** or **yarn**
+- **MongoDB** instance (local or cloud via MongoDB Atlas)
+- **Git** for version control
+
+### Backend Setup
+
+1. **Navigate to Backend directory:**
+   \\\ash
+   cd Backend
+   \\\
+
+2. **Install dependencies:**
+   \\\ash
+   npm install
+   \\\
+
+3. **Configure environment variables:**
+   Create a \.env\ file in the \Backend/\ directory with:
+   \\\
+   PORT=5000
+   MONGODB_URI=your_mongodb_connection_string
+   JWT_SECRET=your_jwt_secret_key
+   CLOUDINARY_NAME=your_cloudinary_name
+   CLOUDINARY_API_KEY=your_cloudinary_api_key
+   CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+   GOOGLE_VISION_API_KEY=your_google_vision_api_key
+   EMAIL_USER=your_email@gmail.com
+   EMAIL_PASSWORD=your_email_app_password
+   FRONTEND_URL=http://localhost:1234
+   \\\
+
+4. **Start the backend server:**
+   \\\ash
+   npm start
+   \\\
+   Backend runs on \http://localhost:3000\
+
+### Frontend Setup
+
+1. **Navigate to Frontend directory:**
+   \\\ash
+   cd Frontend
+   \\\
+
+2. **Install dependencies:**
+   \\\ash
+   npm install
+   \\\
+
+3. **Configure API URL:**
+   Update \piUrl\ in your frontend components to point to \http://localhost:3000\
+
+4. **Start the development server:**
+   \\\ash
+   npm run dev
+   \\\
+   Frontend runs on \http://localhost:1234\
+
+---
+
+##  Key Features Explained
+
+###  Authentication Flow
+- User signs up with email and password
+- OTP verification sent via email
+- JWT token stored in httpOnly cookies for security
+- Password reset with secure token-based flow
+
+###  Real-Time Chat
+- Socket.IO enables instant message delivery
+- Online presence indicator
+- Read receipts for message confirmation
+- Chat history persisted in MongoDB
+
+###  AI-Powered Profile Validation
+- Google Cloud Vision API validates profile images
+- Ensures only images with valid human faces are accepted
+- Prevents spam and fake profiles
+
+###  Cloud Media Management
+- Cloudinary integration for image storage
+- Automatic image optimization and resizing
+- CDN delivery for faster load times
+
+###  User Discovery & Interactions
+- **Feed** � Discover users with in the feed with interested and ignore options
+- **Search** � Find users by location, age, interests
+- **Connection Requests** � Send and manage requests
+- **Matches** � View mutual matches
+- **Blocking** � Block/unblock users for privacy control
+
+---
+
+##  API Documentation
+
+### Authentication
+- \POST /auth/signup\ � Register new user
+- \POST /auth/login\ � Login with email & password
+- \POST /auth/verify-otp\ � Verify email OTP
+- \POST /auth/forgot-password\ � Initiate password reset
+- \POST /auth/reset-password\ � Reset password with token
+
+### User Profile
+- \GET /profile\ � Fetch logged-in user profile
+- \PUT /profile\ � Update profile information
+- \POST /profile/upload-image\ � Upload profile image with AI validation
+
+### Chat & Messages
+- \GET /chats\ � Fetch all user chats
+- \POST /chats\ � Create new chat
+- \GET /chats/:id/messages\ � Fetch messages from a chat
+- \POST /messages\ � Send a message (via Socket.IO)
+
+### User Discovery
+- \GET /feed\ � Get swipe feed
+- \POST /request/send\ � Send connection request
+- \GET /request/received\ � Fetch received requests
+- \POST /request/accept\ � Accept connection request
+- \POST /user/block\ � Block a user
+
+---
+
+##  Troubleshooting
+
+### Common Issues
+
+**Chats not loading?**
+- Check that \piUrl\ points to correct backend URL
+- Verify backend is running (\
+pm start\ in Backend/)
+- Check browser console for fetch errors
+
+**Profile image upload fails?**
+- Ensure Google Cloud Vision API key is valid
+- Verify Cloudinary credentials are set in \.env\
+- Image must contain a valid human face
+
+**Real-time chat not working?**
+- Confirm Socket.IO is running on backend
+- Check WebSocket connection in browser DevTools
+- Verify frontend and backend URLs match
+
+**Database connection error?**
+- Verify MongoDB URI in \.env\
+- Ensure MongoDB service is running
+- For Atlas, check IP whitelist allows your connection
+
+---
+
+##  Contributing
+
+Contributions are welcome! To contribute:
+
+1. **Fork** the repository
+2. **Create a feature branch:** \git checkout -b feature/your-feature\
+3. **Commit changes:** \git commit -m "Add your feature"\
+4. **Push to branch:** \git push origin feature/your-feature\
+5. **Open a Pull Request** with description of changes
+
+---
+
+##  License
+
+This project is licensed under the MIT License � see the LICENSE file for details.
+
+---
+
+##  Support
+
+For issues, feature requests, or questions:
+- Open an [Issue](https://github.com/vinayak-88/LoviNova/issues) on GitHub
+- Contact the maintainer: vinayak-88
+
+---
+
+**Made with  by the Lovinova Team**
