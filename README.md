@@ -1,5 +1,4 @@
-# 💖 Lovinova – Full-Stack Social Connection Platform
-[Live Link](https://lovinova-4.onrender.com/)
+# 💖 Lovinova – Full-Stack Social Connection Platform  
 
 🚀 **Lovinova** is a MERN stack social connection and dating app featuring secure authentication, AI-powered profile validation, real-time chat, and an engaging swipe-style discovery feed.  
 
@@ -12,7 +11,7 @@
 - 🤖 **AI-Powered Validation** – Google Cloud Vision API ensures uploaded profile images contain a valid human face  
 - ☁️ **Cloud Media Pipeline** – Cloudinary integration for image storage, optimization, and delivery  
 - ❤️ **User Discovery** – Swipe-style feed, search, requests, matches, blocking/unblocking  
-- ⚡ **Optimized Backend** – MongoDB with Mongoose transactions, pagination & indexing for high-performance queries  
+- ⚡ **Optimized Backend** – MongoDB with Mongoose transactions & indexing for high-performance queries  
 
 ---
 
@@ -48,42 +47,39 @@
 
 <img width="1901" height="907" alt="Screenshot 2025-10-09 214752" src="https://github.com/user-attachments/assets/097ddc1a-8a28-4a3f-b3a6-c9e5df2a367f" />
 
-
-
-
 ---
 
-##  Project Structure
+## 📁 Project Structure
 
-\\\
+```
 LoviNova/
- Backend/
-    src/
-       app.js                 # Express app setup
-       config/                # Database, email, Vision API configs
-       middlewares/           # Auth, upload middlewares
-       models/                # MongoDB schemas (User, Chat, Message, etc.)
-       routes/                # API routes (auth, chat, profile, requests)
-       utils/                 # Helper utilities (validation, OTP, Cloudinary, Vision)
-       uploads/               # Temporary file storage
-    package.json
-    README.md
- Frontend/
-    src/
-       components/            # React components (ChatSection, Feed, Profile, etc.)
-       utils/                 # Redux slices, auth routes, helpers
-       App.jsx
-       main.jsx
-       index.html
-    package.json
-    tailwind.config.js
-    nginx.conf
- README.md
-\\\
+├── Backend/
+│   ├── src/
+│   │   ├── app.js                 # Express app setup
+│   │   ├── config/                # Database, email, Vision API configs
+│   │   ├── middlewares/           # Auth, upload middlewares
+│   │   ├── models/                # MongoDB schemas (User, Chat, Message, etc.)
+│   │   ├── routes/                # API routes (auth, chat, profile, requests)
+│   │   ├── utils/                 # Helper utilities (validation, OTP, Cloudinary, Vision)
+│   │   └── uploads/               # Temporary file storage
+│   ├── package.json
+│   └── README.md
+├── Frontend/
+│   ├── src/
+│   │   ├── components/            # React components (ChatSection, Feed, Profile, etc.)
+│   │   ├── utils/                 # Redux slices, auth routes, helpers
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── index.html
+│   ├── package.json
+│   ├── tailwind.config.js
+│   └── nginx.conf
+└── README.md
+```
 
 ---
 
-##  Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 - **Node.js** v14+ and **npm** or **yarn**
@@ -93,18 +89,18 @@ LoviNova/
 ### Backend Setup
 
 1. **Navigate to Backend directory:**
-   \\\ash
+   ```bash
    cd Backend
-   \\\
+   ```
 
 2. **Install dependencies:**
-   \\\ash
+   ```bash
    npm install
-   \\\
+   ```
 
 3. **Configure environment variables:**
-   Create a \.env\ file in the \Backend/\ directory with:
-   \\\
+   Create a `.env` file in the `Backend/` directory with:
+   ```
    PORT=5000
    MONGODB_URI=your_mongodb_connection_string
    JWT_SECRET=your_jwt_secret_key
@@ -114,113 +110,112 @@ LoviNova/
    GOOGLE_VISION_API_KEY=your_google_vision_api_key
    EMAIL_USER=your_email@gmail.com
    EMAIL_PASSWORD=your_email_app_password
-   FRONTEND_URL=http://localhost:1234
-   \\\
+   FRONTEND_URL=http://localhost:5173
+   ```
 
 4. **Start the backend server:**
-   \\\ash
+   ```bash
    npm start
-   \\\
-   Backend runs on \http://localhost:3000\
+   ```
+   Backend runs on `http://localhost:5000`
 
 ### Frontend Setup
 
 1. **Navigate to Frontend directory:**
-   \\\ash
+   ```bash
    cd Frontend
-   \\\
+   ```
 
 2. **Install dependencies:**
-   \\\ash
+   ```bash
    npm install
-   \\\
+   ```
 
 3. **Configure API URL:**
-   Update \piUrl\ in your frontend components to point to \http://localhost:3000\
+   Update `apiUrl` in your frontend components to point to `http://localhost:5000`
 
 4. **Start the development server:**
-   \\\ash
+   ```bash
    npm run dev
-   \\\
-   Frontend runs on \http://localhost:1234\
+   ```
+   Frontend runs on `http://localhost:5173`
 
 ---
 
-##  Key Features Explained
+## 🔑 Key Features Explained
 
-###  Authentication Flow
+### 🔐 Authentication Flow
 - User signs up with email and password
 - OTP verification sent via email
 - JWT token stored in httpOnly cookies for security
 - Password reset with secure token-based flow
 
-###  Real-Time Chat
+### 💬 Real-Time Chat
 - Socket.IO enables instant message delivery
 - Online presence indicator
 - Read receipts for message confirmation
 - Chat history persisted in MongoDB
 
-###  AI-Powered Profile Validation
+### 🤖 AI-Powered Profile Validation
 - Google Cloud Vision API validates profile images
 - Ensures only images with valid human faces are accepted
 - Prevents spam and fake profiles
 
-###  Cloud Media Management
+### ☁️ Cloud Media Management
 - Cloudinary integration for image storage
 - Automatic image optimization and resizing
 - CDN delivery for faster load times
 
-###  User Discovery & Interactions
-- **Feed** � Discover users with in the feed with interested and ignore options
-- **Search** � Find users by location, age, interests
-- **Connection Requests** � Send and manage requests
-- **Matches** � View mutual matches
-- **Blocking** � Block/unblock users for privacy control
+### ❤️ User Discovery & Interactions
+- **Swipe Feed** – Discover users with left/right swipe
+- **Search** – Find users by location, age, interests
+- **Connection Requests** – Send and manage requests
+- **Matches** – View mutual matches
+- **Blocking** – Block/unblock users for privacy control
 
 ---
 
-##  API Documentation
+## 📚 API Documentation
 
 ### Authentication
-- \POST /auth/signup\ � Register new user
-- \POST /auth/login\ � Login with email & password
-- \POST /auth/verify-otp\ � Verify email OTP
-- \POST /auth/forgot-password\ � Initiate password reset
-- \POST /auth/reset-password\ � Reset password with token
+- `POST /auth/signup` – Register new user
+- `POST /auth/login` – Login with email & password
+- `POST /auth/verify-otp` – Verify email OTP
+- `POST /auth/forgot-password` – Initiate password reset
+- `POST /auth/reset-password` – Reset password with token
 
 ### User Profile
-- \GET /profile\ � Fetch logged-in user profile
-- \PUT /profile\ � Update profile information
-- \POST /profile/upload-image\ � Upload profile image with AI validation
+- `GET /profile` – Fetch logged-in user profile
+- `PUT /profile` – Update profile information
+- `POST /profile/upload-image` – Upload profile image with AI validation
 
 ### Chat & Messages
-- \GET /chats\ � Fetch all user chats
-- \POST /chats\ � Create new chat
-- \GET /chats/:id/messages\ � Fetch messages from a chat
-- \POST /messages\ � Send a message (via Socket.IO)
+- `GET /chats` – Fetch all user chats
+- `POST /chats` – Create new chat
+- `GET /chats/:id/messages` – Fetch messages from a chat
+- `POST /messages` – Send a message (via Socket.IO)
 
 ### User Discovery
-- \GET /feed\ � Get swipe feed
-- \POST /request/send\ � Send connection request
-- \GET /request/received\ � Fetch received requests
-- \POST /request/accept\ � Accept connection request
-- \POST /user/block\ � Block a user
+- `GET /feed` – Get swipe feed
+- `POST /request/send` – Send connection request
+- `GET /request/received` – Fetch received requests
+- `POST /request/accept` – Accept connection request
+- `POST /user/block` – Block a user
 
 ---
 
-##  Troubleshooting
+## 🛠 Troubleshooting
 
 ### Common Issues
 
 **Chats not loading?**
-- Check that \piUrl\ points to correct backend URL
-- Verify backend is running (\
-pm start\ in Backend/)
+- Check that `apiUrl` points to correct backend URL
+- Verify backend is running (`npm start` in Backend/)
 - Check browser console for fetch errors
 
 **Profile image upload fails?**
 - Ensure Google Cloud Vision API key is valid
-- Verify Cloudinary credentials are set in \.env\
+- Verify Cloudinary credentials are set in `.env`
 - Image must contain a valid human face
 
 **Real-time chat not working?**
@@ -229,31 +224,31 @@ pm start\ in Backend/)
 - Verify frontend and backend URLs match
 
 **Database connection error?**
-- Verify MongoDB URI in \.env\
+- Verify MongoDB URI in `.env`
 - Ensure MongoDB service is running
 - For Atlas, check IP whitelist allows your connection
 
 ---
 
-##  Contributing
+## 🤝 Contributing
 
 Contributions are welcome! To contribute:
 
 1. **Fork** the repository
-2. **Create a feature branch:** \git checkout -b feature/your-feature\
-3. **Commit changes:** \git commit -m "Add your feature"\
-4. **Push to branch:** \git push origin feature/your-feature\
+2. **Create a feature branch:** `git checkout -b feature/your-feature`
+3. **Commit changes:** `git commit -m "Add your feature"`
+4. **Push to branch:** `git push origin feature/your-feature`
 5. **Open a Pull Request** with description of changes
 
 ---
 
-##  License
+## 📝 License
 
-This project is licensed under the MIT License � see the LICENSE file for details.
+This project is licensed under the MIT License – see the LICENSE file for details.
 
 ---
 
-##  Support
+## 💬 Support
 
 For issues, feature requests, or questions:
 - Open an [Issue](https://github.com/vinayak-88/LoviNova/issues) on GitHub
@@ -261,4 +256,4 @@ For issues, feature requests, or questions:
 
 ---
 
-**Made with  by the Lovinova Team**
+**Made with ❤️ by the Lovinova Team**
