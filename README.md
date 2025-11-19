@@ -82,9 +82,10 @@ LoviNova/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- **Node.js** v14+ and **npm** or **yarn**
+- **Node.js** v20+ and **npm** or **yarn**
 - **MongoDB** instance (local or cloud via MongoDB Atlas)
 - **Git** for version control
+- **Parcel** as a bundler
 
 ### Backend Setup
 
@@ -110,14 +111,14 @@ LoviNova/
    GOOGLE_VISION_API_KEY=your_google_vision_api_key
    EMAIL_USER=your_email@gmail.com
    EMAIL_PASSWORD=your_email_app_password
-   FRONTEND_URL=http://localhost:5173
+   FRONTEND_URL=http://localhost:1234
    ```
 
 4. **Start the backend server:**
    ```bash
    npm start
    ```
-   Backend runs on `http://localhost:5000`
+   Backend runs on `http://localhost:3000`
 
 ### Frontend Setup
 
@@ -132,13 +133,13 @@ LoviNova/
    ```
 
 3. **Configure API URL:**
-   Update `apiUrl` in your frontend components to point to `http://localhost:5000`
+   Update `apiUrl` in your frontend components to point to `http://localhost:3000`
 
 4. **Start the development server:**
    ```bash
    npm run dev
    ```
-   Frontend runs on `http://localhost:5173`
+   Frontend runs on `http://localhost:1234`
 
 ---
 
@@ -167,8 +168,8 @@ LoviNova/
 - CDN delivery for faster load times
 
 ### ❤️ User Discovery & Interactions
-- **Swipe Feed** – Discover users with left/right swipe
-- **Search** – Find users by location, age, interests
+- **Feed** – Discover users according to your preferences
+- **Search** – Find users by name
 - **Connection Requests** – Send and manage requests
 - **Matches** – View mutual matches
 - **Blocking** – Block/unblock users for privacy control
@@ -178,29 +179,41 @@ LoviNova/
 ## 📚 API Documentation
 
 ### Authentication
+- `POST /auth/check-auth` - Checks if user is logged In
 - `POST /auth/signup` – Register new user
 - `POST /auth/login` – Login with email & password
 - `POST /auth/verify-otp` – Verify email OTP
 - `POST /auth/forgot-password` – Initiate password reset
+- `POST /auth/forgotpassword/verifyotp` - Verify email OTP for password change
 - `POST /auth/reset-password` – Reset password with token
+- `POST /auth/resend-otp` - Resend OTP to user email
+- `POST /auth/logout` - Logout User
 
 ### User Profile
 - `GET /profile` – Fetch logged-in user profile
-- `PUT /profile` – Update profile information
-- `POST /profile/upload-image` – Upload profile image with AI validation
+- `PATCH /profile` – Update profile information
+- `PATCH /profile/changepassword` - Change password feature from profile page
+- `GET /profile/user/view/:userId` - View user profile
+- `POST /profile/upload` - Upload/Change profile picture with AI validation
+- `GET /profile/searchbyname` - Search users by their name
 
 ### Chat & Messages
 - `GET /chats` – Fetch all user chats
-- `POST /chats` – Create new chat
-- `GET /chats/:id/messages` – Fetch messages from a chat
+- `GET /chat/:conversationId` – Fetch all messages of a chat
 - `POST /messages` – Send a message (via Socket.IO)
+
+### Match Requests
+- `POST /request/send/:status/:userId` - Send connection request
+- `PATCH /request/review/:status/:requestId` - Accept or reject connection request
 
 ### User Discovery
 - `GET /feed` – Get swipe feed
-- `POST /request/send` – Send connection request
-- `GET /request/received` – Fetch received requests
-- `POST /request/accept` – Accept connection request
-- `POST /user/block` – Block a user
+- `GET /user/requests/received` – Fetch received requests
+- `GET /user/connections` - Fetch all connections of LoggedIn user
+- `DELETE /user/connections/removeconnection/:userId` - Remove a connection
+- `POST /block` - Block user
+- `POST /unblock` - Unblock user
+- `GET /blocklist/view` - Get all Blocked users
 
 ---
 
