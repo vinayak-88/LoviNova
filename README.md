@@ -25,7 +25,7 @@
 | **Real-Time**   | Socket.IO |  
 | **Auth & Security** | JWT, bcrypt, rate limiting |  
 | **Cloud & APIs** | Cloudinary, Google Cloud Vision, Google Maps |  
-| **Emailing**    | Nodemailer |  
+| **Emailing**    | Brevo(SendInBlue) |  
 
 ---
 
