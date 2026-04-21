@@ -17,16 +17,16 @@ const ResetPassword = () => {
   const [successMessage, setSuccessMessage] = useState(null);
   const navigate = useNavigate();
   const apiUrl = process.env.API_URL;
+  const token = localStorage.getItem("resetToken");
+
+  if (!token) {
+    return <Navigate to="/forgotpassword" replace />;
+  }
 
   const onSubmit = async (data) => {
     setLoading(true);
     setErrorMessage(null);
     setSuccessMessage(null);
-
-    const token = localStorage.getItem("resetToken");
-    if (!localStorage.getItem("resetToken")) {
-      return <Navigate to="/forgotpassword" replace />;
-    }
 
     try {
       const res = await axios.patch(

@@ -52,12 +52,23 @@ export default function MyProfile({ onBack }) {
 
   // --- Event Handlers ---
   const openEditProfileModal = () => {
+    const initialProfile = {
+      firstName: userProfile?.firstName || "",
+      lastName: userProfile?.lastName || "",
+      age: userProfile?.age || "",
+      gender: userProfile?.gender || "",
+      lookingFor: userProfile?.lookingFor || "",
+      location: userProfile?.location || "",
+      bio: userProfile?.bio || "",
+    };
     setEditedProfile({ ...userProfile });
+    reset(initialProfile);
     setModal("profile");
   };
 
   const openChangePictureModal = () => {
     setEditedProfile({ ...userProfile });
+    setSelectedFile(null);
     setModal("picture");
   };
 
@@ -70,22 +81,26 @@ export default function MyProfile({ onBack }) {
   }, [user]);
 
   const handleProfileChange = async (data) => {
+    const payload = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      age: parseInt(data.age, 10),
+      gender: data.gender,
+      lookingFor: data.lookingFor,
+      bio: data.bio,
+      location: data.location,
+    };
+
     try {
       const res = await axios.patch(
         apiUrl + `/profile/edit`,
-        {
-          firstName: data.firstName,
-          lastName: data.lastName,
-          age: parseInt(data.age),
-          gender: data.gender,
-          lookingFor: data.lookingFor,
-          bio: data.bio,
-          location: data.location,
-        },
+        payload,
         { withCredentials: true }
       );
       if (res.status === 200) {
-        dispatch(updateUser(data));
+        const updatedUser = res.data?.data || payload;
+        dispatch(updateUser(updatedUser));
+        setUserProfile((prev) => ({ ...prev, ...updatedUser }));
         setModal(null);
         setNotification({
           show: true,
@@ -299,15 +314,16 @@ export default function MyProfile({ onBack }) {
                   name="firstName"
                   id="firstName"
                   type="text"
+                  defaultValue={editedProfile?.firstName || ""}
                   placeholder="First Name"
                   className="w-full h-11 px-4 border border-gray-300 rounded-lg focus:ring-pink-400 focus:border-transparent"
                   {...register("firstName", {
                     required: "Firstname is required",
                   })}
                 />
-                {errors.firstname && (
+                {errors.firstName && (
                   <p className="text-red-500 text-xs mt-1">
-                    {errors.firstname.message}
+                    {errors.firstName.message}
                   </p>
                 )}
               </div>
@@ -317,14 +333,15 @@ export default function MyProfile({ onBack }) {
                   id="lastName"
                   placeholder="Last Name"
                   type="text"
+                  defaultValue={editedProfile?.lastName || ""}
                   className="w-full h-11 px-4 border border-gray-300 rounded-lg focus:ring-pink-400 focus:border-transparent"
                   {...register("lastName", {
                     required: "Lastname is required",
                   })}
                 />
-                {errors.lastname && (
+                {errors.lastName && (
                   <p className="text-red-500 text-xs mt-1">
-                    {errors.lastname.message}
+                    {errors.lastName.message}
                   </p>
                 )}
               </div>
@@ -334,6 +351,7 @@ export default function MyProfile({ onBack }) {
                   id="age"
                   placeholder="Age"
                   type="number"
+                  defaultValue={editedProfile?.age || ""}
                   className="w-full h-11 px-4 border border-gray-300 rounded-lg focus:ring-pink-400 focus:border-transparent"
                   {...register("age", {
                     required: "Age is required",
@@ -350,6 +368,7 @@ export default function MyProfile({ onBack }) {
                 <select
                   name="gender"
                   id="gender"
+                  defaultValue={editedProfile?.gender || ""}
                   {...register("gender", {
                     required: "Please select a gender",
                   })}
@@ -372,6 +391,7 @@ export default function MyProfile({ onBack }) {
                 <select
                   name="lookingFor"
                   id="lookingFor"
+                  defaultValue={editedProfile?.lookingFor || ""}
                   className="w-full h-11 px-4 border border-gray-300 rounded-lg bg-white focus:ring-pink-400 focus:border-transparent"
                   {...register("lookingFor", {
                     required: "Please make a selection",
@@ -384,9 +404,9 @@ export default function MyProfile({ onBack }) {
                   <option value="Female">Female</option>
                   <option value="Both">Both</option>
                 </select>
-                {errors.lookingfor && (
+                {errors.lookingFor && (
                   <p className="text-red-500 text-xs mt-1">
-                    {errors.lookingfor.message}
+                    {errors.lookingFor.message}
                   </p>
                 )}
               </div>
@@ -395,6 +415,7 @@ export default function MyProfile({ onBack }) {
                   name="location"
                   id="location"
                   type="text"
+                  defaultValue={editedProfile?.location || ""}
                   placeholder="City Name"
                   className="w-full h-11 px-4 border border-gray-300 rounded-lg focus:ring-pink-400 focus:border-transparent"
                   {...register("location", {
@@ -410,9 +431,19 @@ export default function MyProfile({ onBack }) {
               <textarea
                 name="bio"
                 id="bio"
+                defaultValue={editedProfile?.bio || ""}
                 className="w-full h-24 p-3 border border-gray-300 rounded-lg focus:ring-pink-400 focus:border-transparent"
                 placeholder="Bio"
+                {...register("bio", {
+                  maxLength: {
+                    value: 500,
+                    message: "Bio must be less than 500 characters",
+                  },
+                })}
               />
+              {errors.bio && (
+                <p className="text-red-500 text-xs mt-1">{errors.bio.message}</p>
+              )}
             </div>
             <button
               type="submit"

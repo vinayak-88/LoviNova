@@ -9,14 +9,12 @@ const {
 const userModel = require("../models/user");
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
-const { isHumanFace } = require("../utils/vision");
 const fs = require("fs");
 const upload = require("../middlewares/upload");
 const cloudinary = require("../utils/cloudinary");
 const { USER_SAFE_DATA } = require("../utils/constants");
 const BlockedUser = require("../models/block");
 const { validateAndNormalizeName, sanitizeData } = require("../utils/sanitize");
-const { validateCity } = require("../utils/cityName");
 const ConnectionRequest = require("../models/connectionRequest");
 
 profileRouter.get("/profile/view", userAuth, async (req, res, next) => {
@@ -41,7 +39,11 @@ profileRouter.patch("/profile/edit", userAuth, async (req, res, next) => {
 
     //sanitize and validate location
     location = validateAndNormalizeCity(location);
-    await validateCity(location);
+
+    req.body.firstName = firstName;
+    req.body.lastName = lastName;
+    req.body.bio = bio;
+    req.body.location = location;
 
     //Obejct.keys(req.body).forEach((keys)=>loggedInUser[keys]=req.body[keys])
     Object.assign(loggedInUser, req.body); //easy to read but above is better if we want to perform some validation for each key
@@ -136,10 +138,6 @@ profileRouter.post(
   async (req, res, next) => {
     try {
       if (!req.file) throw new Error("Pls upload an image");
-
-      //human face validation
-      const imageBuffer = fs.readFileSync(req.file.path);
-      await isHumanFace(imageBuffer);
 
       //upload to cloudinary
       const uploadedImage = await cloudinary.uploader.upload(req.file.path, {

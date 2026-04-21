@@ -15,8 +15,8 @@ const {
   validateLoginData,
   forgotPasswordValidation,
   validatePassword,
+  validateAndNormalizeCity,
 } = require("../utils/validation");
-const { validateCity } = require("../utils/cityName");
 const { sanitizeData, validateAndNormalizeName } = require("../utils/sanitize");
 const { userAuth } = require("../middlewares/auth");
 
@@ -63,10 +63,7 @@ authRouter.post("/signup", async (req, res, next) => {
       "First Name"
     );
     const normalizedLastName = validateAndNormalizeName(lastName, "Last Name");
-    const normalizedCityName = sanitizeData(cityName);
-
-    //location validation
-    await validateCity(normalizedCityName);
+    const normalizedCityName = validateAndNormalizeCity(cityName);
 
     //sanitize html and check bio length
     const safeBio = sanitizeData(req.body.bio);
