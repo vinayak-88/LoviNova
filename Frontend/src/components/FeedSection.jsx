@@ -1,7 +1,7 @@
 // FeedSection.jsx
 import { useState, useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Search, Heart, X, MapPin, CheckCircle, X } from "lucide-react";
+import { Search, Heart, X, MapPin, CheckCircle } from "lucide-react";
 import { fetchFeed, removeUser } from "../utils/feedSlice";
 import axios from "axios";
 import UserProfile from "./UserProfile";
@@ -86,11 +86,7 @@ const FeedSection = () => {
               currentProfile.firstName + currentProfile.lastName
             }!`
           );
-        } else
-          showNotification(
-            `⚠️ Something went wrong
-            }!`
-          );
+        } else showNotification("⚠️ Something went wrong");
       } catch (err) {
         showNotification("⚠️ Failed to like profile");
       } finally {
@@ -272,7 +268,7 @@ const FeedSection = () => {
                 <div className="relative z-30 bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col">
                   <div className="relative h-56 sm:h-3/5">
                     <ImageWithFallback
-                      src={currentProfile.profilePicture.url}
+                      src={currentProfile?.profilePicture?.url}
                       alt={currentProfile.firstName + currentProfile.lastName}
                       className="w-full h-full object-cover"
                     />

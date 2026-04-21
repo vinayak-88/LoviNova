@@ -16,10 +16,6 @@ import { useSelector } from "react-redux";
 import ImageWithFallback from "../utils/ImageWithFallBack";
 import UserProfile from "./UserProfile";
 
-const socket = io(process.env.API_URL, {
-  withCredentials: true,
-});
-
 const apiUrl = process.env.API_URL; // Example URL
 
 // --- Helper Functions ---
@@ -36,6 +32,7 @@ const formatTimestamp = (dateString) => {
 export default function ChatSection() {
   // --- State Management ---
   const LOGGED_IN_USER_ID = useSelector((state) => state.user.user._id); // Placeholder ID
+  const socketRef = useRef(null);
 
   const [chats, setChats] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -65,12 +62,27 @@ export default function ChatSection() {
   };
 
   useEffect(() => {
-    if (LOGGED_IN_USER_ID) {
-      socket.emit("userOnline", LOGGED_IN_USER_ID);
+    socketRef.current = io(process.env.API_URL, {
+      withCredentials: true,
+    });
+
+    return () => {
+      socketRef.current?.disconnect();
+      socketRef.current = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (LOGGED_IN_USER_ID && socketRef.current) {
+      socketRef.current.emit("userOnline", LOGGED_IN_USER_ID);
     }
   }, [LOGGED_IN_USER_ID]);
 
   useEffect(() => {
+    if (!socketRef.current) return;
+
+    const socket = socketRef.current;
+
     const handleReceiveMessage = ({ senderId, message }) => {
       const isFromOtherUser = senderId !== LOGGED_IN_USER_ID;
       if (selectedChat && selectedChat.otherUser._id === senderId) {
@@ -113,7 +125,7 @@ export default function ChatSection() {
       socket.off("receiveMessage", handleReceiveMessage);
       socket.off("messageRead", handleMessageRead);
     };
-  }, [selectedChat?.conversationId]);
+  }, [selectedChat?.conversationId, LOGGED_IN_USER_ID]);
 
   useEffect(() => {
     const fetchChats = async () => {
@@ -250,7 +262,7 @@ export default function ChatSection() {
           .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
       );
 
-      socket.emit("sendMessage", {
+      socketRef.current?.emit("sendMessage", {
         senderId: LOGGED_IN_USER_ID,
         receiverId: selectedChat.otherUser._id,
         message: sentMessage,
@@ -272,7 +284,7 @@ export default function ChatSection() {
         (msg) => msg.senderId !== LOGGED_IN_USER_ID && !msg.read
       );
       if (unreadMessages.length > 0) {
-        socket.emit("messageRead", {
+        socketRef.current?.emit("messageRead", {
           conversationId: selectedChat.conversationId,
           receiverId: LOGGED_IN_USER_ID,
         });
