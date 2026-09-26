@@ -255,12 +255,6 @@ Contributions are welcome! To contribute:
 
 ---
 
-## 📝 License
-
-This project is licensed under the MIT License – see the LICENSE file for details.
-
----
-
 ## 💬 Support
 
 For issues, feature requests, or questions:
@@ -269,4 +263,4 @@ For issues, feature requests, or questions:
 
 ---
 
-**Made with ❤️ by the Lovinova Team**
+**Made with ❤️ by the Vinayak Goel**
